@@ -44,6 +44,7 @@ header('Access-Control-Allow-Methods: GET, POST');
 // if get request, return the data
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+
     // check if smalloutput.csv exists
     if (file_exists("../Smalloutput/smalloutput.csv")) {
         $json_file = csvToJson("../Smalloutput/smalloutput.csv");
@@ -56,6 +57,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     echo $json_file['result'];  
     // send the data to the client
+
+    // delete the csv file
+    unlink("../Smalloutput/smalloutput.csv");
     
 }
 
