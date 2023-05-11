@@ -43,19 +43,20 @@ header('Access-Control-Allow-Methods: GET, POST');
 // read the data from the csv file without pandas
 
 // if get request, return the data
-    $json_file = csvToJson("../Output/output.csv");
+    $json_file = csvToJson("../Input/input.csv");
 
-    // add a column called aplusb
+    // convert the json string to an array
+    $json_file = json_decode($json_file['result'], true);
+    
+    //  for each element in the array add a new key value pair
 
-
-	
-    // add the columns a,b inside the json file into a+b
-    foreach ($json_file['result'] as $key => $value) {
-        $json_file['result'][$key]['aplusb'] = $json_file['result'][$key]['a'] + $json_file['result'][$key]['b'];
+    
+    foreach ($json_file as $i => $value) {
+        $json_file[$i]['aplusb'] = $json_file[$i]['a'] + $json_file[$i]['b'];
     }
     
 
-    echo $json_file['result'];  
+    echo json_encode($json_file, JSON_PRETTY_PRINT);
     // send the data to the client
     // echo $json_file; 
 

@@ -5,67 +5,33 @@ class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
-      selectedRows: [],
-      pageFinal: false,
-      outputData: []
+      data: [], // data from api call - used to display main page 
+      selectedRows: [], // rows selected on main page
+      pageFinal: false, // true if on final page
+      outputData: [] // data returned from output api call - used to display output
     };
 
-    this.useRows = this.useRows.bind(this);
-    this.returnHome = this.returnHome.bind(this);
-    this.getSelectedRows = this.getSelectedRows.bind(this);
-    this.useRows = this.useRows.bind(this);
+    this.useRows = this.useRows.bind(this); // makes selected rows editable
+    this.returnHome = this.returnHome.bind(this); // returns to main page
+    this.getSelectedRows = this.getSelectedRows.bind(this); // gets selected rows from main page
     // this.calculate = this.calculate.bind(this);
-    this.updateData = this.updateData.bind(this);
-    this.generateOutput = this.generateOutput.bind(this);
+    this.updateData = this.updateData.bind(this); // updates selected rows on final page
+    // this.generateOutput = this.generateOutput.bind(this); // generates output
 
   }
 
-  // loadDataFromServer() {
-  //   fetch('/api/data')
-  //     .then((response) => response.json())
-  //     .then((responseJson) => {
-  //       this.setState({ data: responseJson });
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //     });
-  // }
-
   componentDidMount() {
-    // fetch('/api/data')
-
     fetch('data_pull.php')
       .then((response) => {
-        console.log("response: ", response)
         return response.json()
       })
       .then((responseJson) => {
-        console.log("responseJson: ", responseJson)
         this.setState({ data: responseJson });
       })
       .catch((error) => {
         console.error(error);
       });
   }
-
-
-  // componentDidUpdate() {
-  //   if (this.state.pageFinal!==true && this.state.data!== this.state.selectedRows) {
-  //     fetch('data_pull.php')
-  //     .then((response) => {
-  //       console.log("response: ", response)
-  //       return response.json()      
-  //     })
-  //     .then((responseJson) => {
-  //       console.log("responseJson: ", responseJson)
-  //       this.setState({ data: responseJson });
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //     });
-  //   }
-  // }
 
 
   // useRows makes these rows editable
@@ -98,37 +64,7 @@ class Main extends React.Component {
     });
   }
 
-  // calculate() {
-  //   // api call to save data to database
-  //   // fetch('/api/savedata', {
-
-  //   let post_data = new FormData();
-
-
-  //   // put data in body but as a promise
-  //   post_data.append('data', JSON.stringify(this.state.selectedRows));
-  //   console.log("selectedRows: ", this.state.selectedRows);
-  //   let data = fetch('data_push.php', {
-  //     method: 'POST',
-  //     // headers: {
-  //     //   'Content-Type': 'application/x-www-form-urlencoded'
-  //     // },
-  //     body: JSON.stringify(this.state.selectedRows)
-  //   })
-  //     .then((response) => {
-  //       console.log("response: ", response)
-  //       return response.text();
-  //     })
-  //     .then((responseJson) => {
-  //       console.log(responseJson);
-  //     }
-  //     )
-  //     .catch((error) => {
-  //       console.error(error);
-  //     }
-  //     );
-  // }
-
+  // update selected rows on final page
   updateData(new_data) {
     this.setState({
       selectedRows: new_data
@@ -136,25 +72,25 @@ class Main extends React.Component {
   }
 
 
-  generateOutput() {
-    // api call to generate output
+  // generateOutput() {
+  //   // api call to generate output
 
-    fetch('smalloutput.php', {
-      method: 'POST',
-      // headers: {
-      //   'Content-Type': 'application/x-www-form-urlencoded'
-      // },
-      body: JSON.stringify(this.state.selectedRows)
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log("outputData post request: ", responseJson)
-        this.setState({ outputData: responseJson });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
+  //   fetch('smalloutput.php', {
+  //     method: 'POST',
+  //     // headers: {
+  //     //   'Content-Type': 'application/x-www-form-urlencoded'
+  //     // },
+  //     body: JSON.stringify(this.state.selectedRows)
+  //   })
+  //     .then((response) => response.json())
+  //     .then((responseJson) => {
+  //       console.log("outputData post request: ", responseJson)
+  //       this.setState({ outputData: responseJson });
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // }
 
 
 
@@ -168,9 +104,10 @@ class Main extends React.Component {
           <h1>Final</h1>
           <FinalList updateData={this.updateData} selectedRows={this.state.selectedRows} />
           <button className="return-main" onClick={this.returnHome}>Return to Main</button>
-          <button onClick={this.generateOutput}>SmallOutput</button>
-        {console.log("outputData: ", this.state.outputData)}
-        {this.state.outputData.length>0 && 
+          <br />
+          {/* <button onClick={this.generateOutput}>SmallOutput</button>
+        {console.log("outputData: ", this.state.outputData)} */}
+          {/* {this.state.outputData.length>0 && 
           <table>
             <thead>
               <tr>
@@ -182,17 +119,17 @@ class Main extends React.Component {
                 </thead>
                 <tbody>
                   {this.state.outputData.map((data) =>
-                    <tr>
+                    <tr key={data.pair_number}>
                       <td>{data.pair_number}</td>
                       <td>{data.a}</td>
                       <td>{data.b}</td>
                       <td>{data.aplusb}</td>
                     </tr>
-                  )}
+                  )}               
                 </tbody>
               </table>
         }
-
+ */}
         </React.Fragment>
 
 
@@ -219,13 +156,15 @@ class FinalList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedRows: this.props.selectedRows
+      selectedRows: this.props.selectedRows,
+      outputData: []
     };
 
     console.log("selectedRows: ", this.state.selectedRows, "props: ", this.props.selectedRows)
 
     this.onCalculate = this.onCalculate.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.generateOutput = this.generateOutput.bind(this);
 
   }
 
@@ -237,7 +176,7 @@ class FinalList extends React.Component {
   }
 
   onCalculate() {
-    console.log("selectedRows: ", this.state.selectedRows, "props: ", this.props.selectedRows)
+    console.log("176 selectedRows: ", this.state.selectedRows, "props: ", this.props.selectedRows)
 
     // this.props.updateData(this.state.selectedRows);
     let post_data = new FormData();
@@ -256,7 +195,7 @@ class FinalList extends React.Component {
       .then((response) => {
         console.log("response: ", response)
         return response.text();
-        
+
       })
       .then((responseJson) => {
         console.log(responseJson);
@@ -269,22 +208,56 @@ class FinalList extends React.Component {
 
   }
 
+  generateOutput() {
+    // api call to generate output
+    console.log("selectedRows: ", this.state.selectedRows);
+    fetch('smalloutput.php', {
+      method: 'POST',
+      // headers: {
+      //   'Content-Type': 'application/x-www-form-urlencoded'
+      // },
+      body: JSON.stringify(this.state.selectedRows)
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log("outputData post request: ", responseJson)
+        this.setState({ outputData: responseJson });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+
 
   handleChange(event) {
-    // prevent default
-    // event.preventDefault();
+    // // prevent default
+    // // event.preventDefault();
 
-    // console.log("this.state.data: ",this.state.data)
-    
-    // update state
+    // // console.log("this.state.data: ",this.state.data)
+
+    // // update state
+    // let temp = this.state.selectedRows;
+    // console.log("temp 280: ", temp)
+    // // console.log("event.target.name", event.target.name, "event.target.value:", event.target.value)
+    // temp[event.target.name] = event.target.value;
+    // this.setState({
+    //   selectedRows: temp
+    // });
+    // console.log("this.state.data: ",this.state.selectedRows)
+    console.log("this.state.selectedRows: ", this.state.selectedRows)
     let temp = this.state.selectedRows;
-    console.log("temp 280: ", temp)
+    console.log("temp: ", temp)
     // console.log("event.target.name", event.target.name, "event.target.value:", event.target.value)
-    temp[event.target.name] = event.target.value;
+    temp[0][event.target.name] = event.target.value;
+    console.log("temp updated: ", temp)
+
     this.setState({
       selectedRows: temp
     });
-    console.log("this.state.data: ",this.state.selectedRows)
+
+    console.log("this.state.selectedRows: ", this.state.selectedRows)
+
   }
 
   render() {
@@ -292,43 +265,84 @@ class FinalList extends React.Component {
     return (
       <div>
         {
-          this.state.selectedRows.map((row) => {
+          this.state.selectedRows.map((row, index) =>{
             return (
               <React.Fragment>
-                <label className="form_inside_table">
+                <label className="form_inside_table" key={row.pair_number}>
                   A:
-                  <input name="a" type="text" defaultValue={row.a} onChange={(event)=>{
-                        let temp = this.state.selectedRows;
-                        console.log("temp: ", temp)
-                        // console.log("event.target.name", event.target.name, "event.target.value:", event.target.value)
-                        temp[event.target.name] = event.target.value;
-                        this.setState({
-                          selectedRows: temp
-                        });
+                  <input name="a" type="text" defaultValue={row.a} onChange={(event) => {
+                    console.log("this.state.selectedRows: ", this.state.selectedRows)
+                    let temp = this.state.selectedRows;
+                    console.log("temp: ", temp)
+                    // console.log("event.target.name", event.target.name, "event.target.value:", event.target.value)
+                    console.log("index: ", index)
+                    temp[index][event.target.name] = event.target.value;
+                    console.log("temp updated: ", temp)
+
+                    this.setState({
+                      selectedRows: temp
+                    });
+
+                    console.log("this.state.selectedRows: ", this.state.selectedRows)
+
                   }} />
                 </label>
                 <label className="form_inside_table">
                   B:
-                  <input name="b" type="text" defaultValue={row.b} onChange={(event)=>{
-                        console.log("this.state.selectedRows: ", this.state.selectedRows)
-                        let temp = this.state.selectedRows;
-                        console.log("temp: ", temp)
-                        // console.log("event.target.name", event.target.name, "event.target.value:", event.target.value)
-                        temp[0][event.target.name] = event.target.value;
-                        console.log("temp updated: ", temp)
+                  <input name="b" type="text" defaultValue={row.b} onChange={(event) => {
+                    console.log("this.state.selectedRows: ", this.state.selectedRows)
+                    let temp = this.state.selectedRows;
+                    console.log("temp: ", temp)
+                    // console.log("event.target.name", event.target.name, "event.target.value:", event.target.value)
+                    temp[index][event.target.name] = event.target.value;
+                    console.log("temp updated: ", temp)
 
-                        this.setState({
-                          selectedRows: temp
-                        });
+                    this.setState({
+                      selectedRows: temp
+                    });
+
+                    console.log("this.state.selectedRows: ", this.state.selectedRows)
                   }} />
                 </label>
+
+
+
               </React.Fragment>
             )
           })
         }
-        <button onClick={()=>{
+        <h1> Playground output </h1>
+      {this.state.outputData.length > 0 &&
+        <table>
+          <thead>
+            <tr>
+              <th>Pair Number</th>
+              <th>A</th>
+              <th>B</th>
+              <th>A+B</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.state.outputData.map((data) =>
+              <tr key={data.pair_number}>
+                <td>{data.pair_number}</td>
+                <td>{data.a}</td>
+                <td>{data.b}</td>
+                <td>{data.aplusb}</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      }
+        <br />
+        <button onClick={() => {
           this.onCalculate();
         }}>Calculate</button>
+
+        <br />
+        <button onClick={() => {
+          this.generateOutput();
+        }}>Generate Output</button>
       </div>
     );
   }
