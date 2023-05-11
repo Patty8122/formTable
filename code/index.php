@@ -12,6 +12,9 @@
 
 <body>
     <div id="root"></div>
+    <div id="sum">
+        <a href="sum2.php">sum.php</a>
+    </div>
     <script type="text/babel" src="./example.js"></script>
 </body>
 

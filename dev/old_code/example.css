@@ -1,0 +1,21 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+td {border: 1px #DDD solid; padding: 5px; cursor: pointer;}
+
+
+tr:hover {background-color: #ddd;}
+
+
+/* .form_inside_table{
+    border: 1px #DDD solid; padding: 5px; cursor: pointer;
+} */
+
+
+.selected {
+    background-color: brown;
+    color: #FFF;
+}

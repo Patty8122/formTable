@@ -1,24 +1,24 @@
 
 <?php
-header('Access-Control-Allow-Origin: http://www.convb.com');
+header('Access-Control-Allow-Origin: https://localhost:3000');
 header('Access-Control-Allow-Methods: GET, POST');
 
 // handle for csv file
 $myfile = fopen("../Input/input.csv", "w") or die("Unable to open file!");
-echo "hi";
+
 
 $newCsvData = array();
 if (($handle = fopen("test.csv", "r")) !== FALSE) {
     while (($data = fgetcsv($myfile, 1000, ",")) !== FALSE) {
         $data[] = 'A+B';
         $newCsvData[] = $data[0]['A'] + $data[0]['B'];
-        echo strval($newCsvData);
+        echo "hi"
     }
     fclose($handle);
 }
 
 echo "array: ";
-echo strval($newCsvData);
+echo ['result' => json_encode($newCsvData, JSON_PRETTY_PRINT)];
 
 
 $handle = fopen('../Smalloutput/smalloutput.csv', 'w');

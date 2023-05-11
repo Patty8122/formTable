@@ -10,11 +10,9 @@
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 </head>
 
-
 <body>
     <div id="root"></div>
     <script type="text/babel" src="./example.js"></script>
 </body>
 
 </html>
-
